@@ -1,0 +1,26 @@
+const express = require('express');
+
+const theory3Hard = express.Router();
+const pool = require('../server/db');
+
+require('dotenv').config();
+
+theory3Hard.use(express.json());
+
+theory3Hard.get('/', async (req, res) => {
+  try {
+    const events = await pool.query(`        
+   SELECT t.title, AVG(believability_score)
+    FROM believability AS b
+    JOIN theories AS t ON b.theory_id = t.id
+    WHERE t.title = 'CTC devs will be replaced by AI in the future'
+    AND b.believability_score != 1 AND b.believability_score != 10
+    GROUP BY t.title
+    ;`);
+    res.status(200).json(events.rows);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+module.exports = theory3Hard;

@@ -1,0 +1,24 @@
+const express = require('express');
+
+const theory2Easy = express.Router();
+const pool = require('../server/db');
+
+require('dotenv').config();
+
+theory2Easy.use(express.json());
+
+theory2Easy.get('/', async (req, res) => {
+  try {
+    const events = await pool.query(`        
+   SELECT evidence_text, b.believability_score FROM evidence AS e
+    JOIN theories AS t ON e.theory_id = t.id
+    JOIN believability AS b ON e.theory_id = b.theory_id
+    WHERE t.title = 'Kevin has a crippling league addiction';`);
+
+    res.status(200).json(events.rows);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+module.exports = theory2Easy;

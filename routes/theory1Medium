@@ -1,0 +1,20 @@
+const express = require('express');
+
+const theory1Medium = express.Router();
+const pool = require('../server/db');
+
+require('dotenv').config();
+
+theory1Medium.use(express.json());
+
+theory1Medium.get('/', async (req, res) => {
+  try {
+    const events = await pool.query(`        
+    SELECT AVG(believability_score) FROM believability`);
+    res.status(200).json(events.rows);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+module.exports = theory1Medium;

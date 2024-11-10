@@ -1,0 +1,23 @@
+const express = require('express');
+
+const theory3Medium = express.Router();
+const pool = require('../server/db');
+
+require('dotenv').config();
+
+theory3Medium.use(express.json());
+
+theory3Medium.get('/', async (req, res) => {
+  try {
+    const events = await pool.query(`        
+   SELECT submitter FROM believability AS b
+JOIN theories AS t ON b.theory_id = t.id
+WHERE t.title = 'CTC devs will be replaced by AI in the future'
+AND b.believability_score >= 5;`);
+    res.status(200).json(events.rows);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+module.exports = theory3Medium;

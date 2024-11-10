@@ -1,0 +1,25 @@
+const express = require('express');
+
+const theory2Hard = express.Router();
+const pool = require('../server/db');
+
+require('dotenv').config();
+
+theory2Hard.use(express.json());
+
+theory2Hard.get('/', async (req, res) => {
+  try {
+    const events = await pool.query(`        
+    SELECT t.title, AVG(believability_score) AS avg_score
+    FROM theories AS t 
+    JOIN believability AS b ON t.id = b.theory_id
+    GROUP BY t.title
+    ORDER BY avg_score ASC
+    LIMIT 1;`);
+    res.status(200).json(events.rows);
+  } catch (err) {
+    res.status(500).json(err.message);
+  }
+});
+
+module.exports = theory2Hard;
