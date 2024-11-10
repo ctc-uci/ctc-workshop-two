@@ -4,6 +4,10 @@ const cors = require('cors');
 // Example of how to import your created routers into app.js
 const uselessRouter = require('./routes/uselessRouter');
 
+const theoryOneRouter = require('./routes/theoryOneRouter');
+
+const theoryTwoRouter = require('./routes/theoryTwoRouter');
+
 require('dotenv').config();
 
 const app = express();
@@ -18,6 +22,10 @@ app.use(
 
 // Use your routers here (e.g. app.use('/useless', uselessRouter);)
 app.use('/useless', uselessRouter);
+
+app.use('/theoryone', theoryOneRouter);
+
+app.use('/theorytwo', theoryTwoRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
