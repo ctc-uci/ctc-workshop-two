@@ -11,6 +11,5 @@
     "ecmaVersion": 13,
     "sourceType": "module"
   },
-  "rules": {
-  }
+  "rules": { "camelcase": "warn", "prettier/prettier": ["error", { "endOfLine": "auto" }] }
 }
