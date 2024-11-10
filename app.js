@@ -8,6 +8,8 @@ const theoryOneRouter = require('./routes/theoryOneRouter');
 
 const theoryTwoRouter = require('./routes/theoryTwoRouter');
 
+const theoryThreeRouter = require('./routes/theoryThreeRouter');
+
 require('dotenv').config();
 
 const app = express();
@@ -24,8 +26,8 @@ app.use(
 app.use('/useless', uselessRouter);
 
 app.use('/theoryone', theoryOneRouter);
-
 app.use('/theorytwo', theoryTwoRouter);
+app.use('/theorythree', theoryThreeRouter);
 
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
